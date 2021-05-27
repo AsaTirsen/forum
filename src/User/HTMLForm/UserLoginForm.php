@@ -81,15 +81,26 @@ class UserLoginForm extends FormModel
         $user = new User();
         $user->setDb($this->di->get("dbqb"));
         $res = $user->verifyPassword($acronym, $password);
-        $gravatar = $user->setGravatar($email);
 
         if (!$res) {
             $this->form->rememberValues();
             $this->form->addOutput("User or password did not match.");
             return false;
         }
-
-        $this->form->addOutput("User " . $user->acronym . " logged in . $gravatar");
+        $this->di->get("session")->set("username", $user->acronym);
+        var_dump($this->di->get("session"));
+        $this->form->addOutput("User " . $user->acronym . " logged in");
         return true;
+    }
+
+    /**
+     * Callback what to do if the form was successfully submitted, this
+     * happen when the submit callback method returns true. This method
+     * can/should be implemented by the subclass for a different behaviour.
+     */
+    public function callbackSuccess()
+    {
+        var_dump($this->di->get("session"));
+        $this->di->get("response")->redirect("user")->send();
     }
 }

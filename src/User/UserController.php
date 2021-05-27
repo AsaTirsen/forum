@@ -79,14 +79,12 @@ class UserController implements ContainerInjectableInterface
         $page = $this->di->get("page");
         $form = new UserLoginForm($this->di);
         $form->check();
-
-        $page->add("anax/v2/article/default", [
-            "content" => $form->getHTML(),
-        ]);
-
-        return $page->render([
-            "title" => "A login page",
-        ]);
+        $data = [
+                "form" => $form->getHTML(),
+                "title" => "A login page"
+            ];
+        $page->add("user/login", $data);
+        return $page->render($data);
     }
 
     //else "gravatar" => $user->setGravatar()
@@ -110,12 +108,12 @@ class UserController implements ContainerInjectableInterface
         //curl gravatar API
         $form->check();
 
-        $page->add("anax/v2/article/default", [
-            "content" => $form->getHTML(),
-        ]);
+        $data = [
+            "form" => $form->getHTML(),
+            "title" => "Create user"
+        ];
 
-        return $page->render([
-            "title" => "A create user page",
-        ]);
+        $page->add("user/create", $data);
+        return $page->render($data);
     }
 }

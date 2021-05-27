@@ -11,18 +11,23 @@ return [
     "items" => [
         [
             "text" => "Forum",
-            "url" => "",
+            "url" => "forum",
             "title" => "Första sidan, börja här.",
         ],
         [
-            "text" => "Login",
+            "text" => "Logga in",
             "url" => "user/login",
             "title" => "Logga in.",
         ],
         [
-            "text" => "Questions",
-            "url" => "questions",
+            "text" => "Frågor",
+            "url" => "question",
             "title" => "Frågor",
+        ],
+        [
+            "text" => "Taggar",
+            "url" => "tag",
+            "title" => "Taggar",
         ],
         [
             "text" => "Om",

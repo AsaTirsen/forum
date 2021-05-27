@@ -24,27 +24,22 @@ class CreateForm extends FormModel
         $this->form->create(
             [
                 "id" => __CLASS__,
-                "legend" => "Details of the item",
+                "legend" => "Skapa fråga",
             ],
             [
-                "title" => [
+                "titel" => [
                     "type" => "text",
                     "validation" => ["not_empty"],
                 ],
 
-                "question" => [
+                "fråga" => [
                     "type" => "text",
                     "validation" => ["not_empty"],
-                ],
-
-                "hidden" => [
-                    "type"        => "hidden",
-                    "validation"  => ["not_empty"],
                 ],
 
                 "submit" => [
                     "type" => "submit",
-                    "value" => "Create question",
+                    "value" => "Skapa fråga",
                     "callback" => [$this, "callbackSubmit"]
                 ],
             ]
@@ -63,11 +58,13 @@ class CreateForm extends FormModel
     {
         $question = new Question();
         $user = new User();
-        $user_id = $this->di->get("session")->set("username", $user->id);
+        $user_id = $this->di->get("session")->get("username", $user->id);
+        error_log($user_id);
         $question->setDb($this->di->get("dbqb"));
-        $question->title  = $this->form->value("title");
-        $question->question = $this->form->value("question");
-        $question->user_id = 1;
+        $question->title  = $this->form->value("titel");
+        $question->question = $this->form->value("fråga");
+        $question->user_id = $user_id;
+        error_log($user_id . $question->title . $question->question);
         $question->save();
         return true;
     }
@@ -86,14 +83,15 @@ class CreateForm extends FormModel
 
 
 
-    // /**
-    //  * Callback what to do if the form was unsuccessfully submitted, this
-    //  * happen when the submit callback method returns false or if validation
-    //  * fails. This method can/should be implemented by the subclass for a
-    //  * different behaviour.
-    //  */
-    // public function callbackFail()
-    // {
-    //     $this->di->get("response")->redirectSelf()->send();
-    // }
+     /**
+      * Callback what to do if the form was unsuccessfully submitted, this
+      * happen when the submit callback method returns false or if validation
+      * fails. This method can/should be implemented by the subclass for a
+      * different behaviour.
+      */
+     public function callbackFail()
+     {
+         print_r("No go");
+         $this->di->get("response")->redirectSelf()->send();
+     }
 }

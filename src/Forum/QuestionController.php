@@ -52,9 +52,7 @@ class QuestionController implements ContainerInjectableInterface
         $page = $this->di->get("page");
         $question = new Question();
         $question->setDb($this->di->get("dbqb"));
-
         $page->add("forum/question", [
-            "content" => "Alla frågor",
             "items" => $question->findAll(),
 //            Lista på frågor
 //            form -> getHTML för att ställa fråga
@@ -74,6 +72,7 @@ class QuestionController implements ContainerInjectableInterface
      */
     public function createAction() : object
     {
+        error_log("createAction");
         $page = $this->di->get("page");
         $form = new CreateForm($this->di);
         $form->check();

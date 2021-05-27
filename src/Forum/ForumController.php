@@ -4,6 +4,7 @@ namespace Forum\Forum;
 
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
+use Forum\User\User;
 
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
@@ -48,10 +49,12 @@ class ForumController implements ContainerInjectableInterface
     public function indexActionGet(): object
     {
         $page = $this->di->get("page");
-
+        $question = new Question();
+        $question->setDb($this->di->get("dbqb"));
+        var_dump($question->findAll());
         $page->add("forum/index", [
-            "content" => "Senaste frågorna",
-        ]);
+            "items" => $question->findAll()
+    ]);
 
         return $page->render([
             "title" => "A index page",

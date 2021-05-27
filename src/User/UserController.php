@@ -53,10 +53,9 @@ class UserController implements ContainerInjectableInterface
     public function indexActionGet() : object
     {
         $page = $this->di->get("page");
-
-        $page->add("anax/v2/article/default", [
-            "content" => "An index page",
-        ]);
+        $user = new User();
+        $user->setDb($this->di->get("dbqb"));
+        $page->add("user/login");
 
         return $page->render([
             "title" => "A index page",
@@ -81,7 +80,7 @@ class UserController implements ContainerInjectableInterface
         $form->check();
         $data = [
                 "form" => $form->getHTML(),
-                "title" => "A login page"
+                "title" => "A login page",
             ];
         $page->add("user/login", $data);
         return $page->render($data);

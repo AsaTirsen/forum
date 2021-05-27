@@ -21,13 +21,9 @@ $urlToAskQuestion = url("question");
 <!--Gather incoming variables and use default values if not set-->
     <?php $items = isset($items) ? $items : null;
 
-    // Create urls for navigation
-    $urlToCreate = url("book/create");
-    $urlToDelete = url("book/delete");
 
 
-
-    ?><h1>View all items</h1>
+    ?><h1>View </h1>
 
     <p>
         <a href="<?= $urlToCreate ?>">Create</a> |

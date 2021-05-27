@@ -1,6 +1,6 @@
 <?php
 
-namespace Forum\Forum;
+namespace Forum\Question;
 
 use Anax\DatabaseActiveRecord\ActiveRecordModel;
 

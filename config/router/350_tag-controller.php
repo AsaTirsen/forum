@@ -8,7 +8,7 @@ return [
         [
             "info" => "Tag controller.",
             "mount" => "tag",
-            "handler" => "\Forum\Forum\TagController",
+            "handler" => "\Forum\Tag\TagController",
         ],
     ]
 ];

@@ -8,7 +8,7 @@ return [
         [
             "info" => "Question controller.",
             "mount" => "question",
-            "handler" => "\Forum\Forum\QuestionController",
+            "handler" => "\Forum\Question\QuestionController",
         ],
     ]
 ];

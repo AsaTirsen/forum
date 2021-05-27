@@ -1,10 +1,10 @@
 <?php
 
-namespace Forum\Forum\HTMLForm;
+namespace Forum\Question\HTMLForm;
 
 use Anax\HTMLForm\FormModel;
 use Psr\Container\ContainerInterface;
-use Forum\Forum\Question;
+use Forum\Question\Question;
 use Forum\User\User;
 
 

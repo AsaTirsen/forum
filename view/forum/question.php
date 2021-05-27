@@ -56,12 +56,19 @@ endif;
             <td>
                 <a href="<?= url("question/update/{$item->id}"); ?>"><?= $item->question ?></a>
             </td>
-            <td>Ett svar </td>
             <td>
-                <a href="<?= url("question/update/{$item->id}"); ?>">Svara på frågan</a>
+                <a href="<?= url("answer?{$item->id}"); ?>">Svara på frågan</a>
             </td>
 
         </tr>
-    <?php endforeach; ?>
+    <?php endforeach;
+//    if ($answers = "") {
+//         ?><!--<tr><td>Inget svar än</td></tr>-->
+<!--    --><?php //}
+//    else {
+//    foreach ($answers as $answer)?>
+<!--    <tr>-->
+<!--        <td>--><?//=$answer->answer?><!--</td>-->
+<!--    </tr>-->
+<!--    --><?php //endforeach; ?>
 </table>
-

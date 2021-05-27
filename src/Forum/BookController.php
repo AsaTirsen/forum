@@ -1,12 +1,14 @@
 <?php
 
-namespace Forum\Forum;
+namespace Asti\Book;
 
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
-use Forum\Forum\HTMLForm\CreateForm;
-use Forum\Forum\HTMLForm\DeleteForm;
-use Forum\Forum\HTMLForm\UpdateForm;
+use Asti\Book\HTMLForm\CreateForm;
+use Asti\Book\HTMLForm\EditForm;
+use Asti\Book\HTMLForm\DeleteForm;
+use Asti\Book\HTMLForm\UpdateForm;
+
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
 // use Anax\Route\Exception\InternalErrorException;
@@ -14,15 +16,17 @@ use Forum\Forum\HTMLForm\UpdateForm;
 /**
  * A sample controller to show how a controller class can be implemented.
  */
-class QuestionController implements ContainerInjectableInterface
+class BookController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
+
 
 
     /**
      * @var $data description
      */
     //private $data;
+
 
 
     // /**
@@ -38,28 +42,23 @@ class QuestionController implements ContainerInjectableInterface
     // }
 
 
+
     /**
-     * Description.
-     *
-     * @param datatype $variable Description
+     * Show all items.
      *
      * @return object as a response object
-     * @throws Exception
-     *
      */
-    public function indexActionGet(): object
+    public function indexActionGet() : object
     {
         $page = $this->di->get("page");
-        $question = new Question();
-        $question->setDb($this->di->get("dbqb"));
-        $page->add("forum/question", [
-            "items" => $question->findAll(),
-//            Lista på frågor
-//            form -> getHTML för att ställa fråga
+        $book = new Book();
+        $book->setDb($this->di->get("dbqb"));
+        $page->add("book/crud/view-all", [
+            "items" => $book->findAll(),
         ]);
 
         return $page->render([
-            "title" => "A index page",
+            "title" => "A collection of items",
         ]);
     }
 
@@ -72,13 +71,12 @@ class QuestionController implements ContainerInjectableInterface
      */
     public function createAction() : object
     {
-        error_log("createAction");
         $page = $this->di->get("page");
         $form = new CreateForm($this->di);
         $form->check();
 
-        $page->add("forum/create_question", [
-            "form" => $form->getHTML()
+        $page->add("book/crud/create", [
+            "form" => $form->getHTML(),
         ]);
 
         return $page->render([
@@ -131,5 +129,4 @@ class QuestionController implements ContainerInjectableInterface
             "title" => "Update an item",
         ]);
     }
-
 }

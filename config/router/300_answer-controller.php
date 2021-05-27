@@ -8,7 +8,7 @@ return [
         [
             "info" => "Answer controller.",
             "mount" => "answer",
-            "handler" => "\Forum\Forum\AnswerController",
+            "handler" => "\Forum\Answer\AnswerController",
         ],
     ]
 ];

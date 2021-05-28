@@ -109,7 +109,6 @@ class CreateUserForm extends FormModel
         $user->email = $email;
         $user->setPassword($password);
         $user->save();
-        var_dump($user->acronym);
 
         $this->form->addOutput("User was created.");
         return true;

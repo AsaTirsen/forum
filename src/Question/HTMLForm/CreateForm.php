@@ -3,8 +3,10 @@
 namespace Forum\Question\HTMLForm;
 
 use Anax\HTMLForm\FormModel;
+use Forum\Tag\TagQuestion;
 use Psr\Container\ContainerInterface;
 use Forum\Question\Question;
+use Forum\Tag\Tag;
 use Forum\User\User;
 
 
@@ -33,8 +35,12 @@ class CreateForm extends FormModel
                 ],
 
                 "fråga" => [
-                    "type" => "text",
+                    "type" => "textarea",
                     "validation" => ["not_empty"],
+                ],
+
+                "tags" => [
+                    "type" => "text",
                 ],
 
                 "submit" => [
@@ -57,15 +63,40 @@ class CreateForm extends FormModel
     public function callbackSubmit() : bool
     {
         $question = new Question();
-        $user = new User();
-        $user_id = $this->di->get("session")->get("username", $user->id);
-        error_log($user_id);
+        $user_id = $this->di->get("session")->get("user_id");
         $question->setDb($this->di->get("dbqb"));
         $question->title  = $this->form->value("titel");
         $question->question = $this->form->value("fråga");
+//        $question->tag = $tag;
         $question->user_id = $user_id;
-        error_log($user_id . $question->title . $question->question);
         $question->save();
+
+        $tags = $this->form->value("tags");
+        // Split comma separated $tags into $tag_name_list array of strings
+        $tagNames = explode(",", $tags);
+        //   Put the Tag object into $tag_list, which is an array of Tag objects
+        $tagObjectsArray = [];
+        foreach ($tagNames as $tagName) {
+            $tag = new Tag();
+            $tag->setDb($this->di->get("dbqb"));
+            $tag->find("name", $tagName);
+            if($tag->id == null) {
+                $tag->name = $tagName;
+                $tag->save();
+                array_push($tagObjectsArray, $tag);
+            }
+        }
+        // For each Tag object in $tagObjectsArray
+        //   Create a new TagQuestion object with tag_id and question_id
+        //   Save it to the database
+        foreach ($tagObjectsArray as $tag) {
+            $tagQuestion = new TagQuestion();
+            $tagQuestion->setDb($this->di->get("dbqb"));
+            $tagQuestion->tag_id  = $tag->id;
+            $tagQuestion->question_id = $question->id;
+            $tagQuestion->save();
+        }
+
         return true;
     }
 

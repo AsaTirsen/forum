@@ -4,6 +4,7 @@ namespace Forum\Answer\HTMLForm;
 
 use Anax\HTMLForm\FormModel;
 use Forum\Answer\Answer;
+use Forum\User\User;
 use Psr\Container\ContainerInterface;
 
 
@@ -15,10 +16,12 @@ class CreateForm extends FormModel
     /**
      * Constructor injects with DI container.
      *
-     * @param Psr\Container\ContainerInterface $di a service container
+     * @param ContainerInterface $di a service container
+     * @param string $questionId the id of the question
      */
-    public function __construct(ContainerInterface $di)
+    public function __construct(ContainerInterface $di, string $questionId)
     {
+        error_log("constructor called");
         parent::__construct($di);
         $this->form->create(
             [
@@ -27,14 +30,14 @@ class CreateForm extends FormModel
             ],
             [
                 "svar" => [
-                    "type" => "text",
+                    "type" => "textarea",
                     "validation" => ["not_empty"],
                 ],
 
-//                "question_id" => [
-//                    "type"        => "hidden",
-//                    "value"       => "secret value",
-//                ],
+                "question_id" => [
+                    "type"        => "hidden",
+                    "value"       => $questionId,
+                ],
 
                 "submit" => [
                     "type" => "submit",
@@ -55,10 +58,13 @@ class CreateForm extends FormModel
      */
     public function callbackSubmit() : bool
     {
-        error_log("submit");
+        error_log("callbacksubmit");
         $answer = new Answer();
         $answer->setDb($this->di->get("dbqb"));
-        $answer->answer = $this->form->value("answer");
+        $answer->answer = $this->form->value("svar");
+        $answer->question_id = $this->form->value("question_id");
+        $answer->user_id = $this->di->get("session")->get("user_id");
+        var_dump($answer->user_id);
         $answer->save();
         return true;
     }

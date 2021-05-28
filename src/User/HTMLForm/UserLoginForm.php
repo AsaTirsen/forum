@@ -43,11 +43,20 @@ class UserLoginForm extends FormModel
                     "value" => "Login",
                     "callback" => [$this, "callbackSubmit"]
                 ],
+
+                "submit2" => [
+                    "type" => "submit",
+                    "value" => "Logout",
+                    "callback" => [$this, "logOut"]
+                ],
             ]
         );
     }
 
 
+    public function logOut() {
+        session_destroy();
+    }
 
     /**
      * Callback for submit-button which should return true if it could
@@ -87,9 +96,8 @@ class UserLoginForm extends FormModel
             $this->form->addOutput("User or password did not match.");
             return false;
         }
-        $this->di->get("session")->set("username", $user->acronym);
-        var_dump($this->di->get("session"));
-        $this->form->addOutput("User " . $user->acronym . " logged in");
+        $this->di->get("session")->set("user_id", $user->id);
+        $this->form->addOutput("User " . $user->id . " logged in");
         return true;
     }
 
@@ -100,7 +108,6 @@ class UserLoginForm extends FormModel
      */
     public function callbackSuccess()
     {
-        var_dump($this->di->get("session"));
-        $this->di->get("response")->redirect("user")->send();
+        $this->di->get("response")->redirect("forum")->send();
     }
 }

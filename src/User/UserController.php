@@ -79,8 +79,8 @@ class UserController implements ContainerInjectableInterface
         $form = new UserLoginForm($this->di);
         $form->check();
         $data = [
-                "form" => $form->getHTML(),
-                "title" => "A login page",
+            "form" => $form->getHTML(),
+            "title" => "A login page",
             ];
         $page->add("user/login", $data);
         return $page->render($data);

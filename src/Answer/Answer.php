@@ -24,16 +24,9 @@ class Answer extends ActiveRecordModel
     public $id;
     public $answer;
     public $question_id;
+    public $user_id;
     public $created;
     public $updated;
     public $deleted;
     public $active;
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $question_id): void
-    {
-        $this->question_id = $question_id;
-    }
 }

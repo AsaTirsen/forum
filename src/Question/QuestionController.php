@@ -52,18 +52,59 @@ class QuestionController implements ContainerInjectableInterface
     {
         $page = $this->di->get("page");
         $question = new Question();
-        $question->setDb($this->di->get("dbqb"));
-        $page->add("forum/question", [
-            "items" => $question->findAll(),
-//            Lista på frågor
-//            form -> getHTML för att ställa fråga
-        ]);
+        $user_id = $this->di->get("session")->get("user_id");
+        var_dump($user_id);
+        if (!$user_id) {
+            $this->di->get("response")->redirect("user/login");
+        }
+        $params = $this->di->get("request")->getGet();
+        if ($params) {
+            $questionId = $this->di->get("request")->getGet()["question_id"];
+            var_dump($questionId);
+            $form = new \Forum\Answer\HTMLForm\CreateForm($this->di, $questionId);
+            $form->check();
+            $data = [
+                "form" => $form->getHTML(),
+                "title" => "Answer page"
+            ];
 
-        return $page->render([
-            "title" => "A index page",
-        ]);
+            $page->add("forum/create_answer", $data);
+            return $page->render($data);
+        }
+        else {
+            $answer = new Answer;
+            $answer->setDb($this->di->get("dbqb"));
+            $question->setDb($this->di->get("dbqb"));
+            $data = [
+                "questions" => $question->findAll(),
+                "answers" => $answer->findAll(),
+                "title" => "A index page"
+            ];
+
+            $page->add("forum/question", $data);
+            return $page->render($data);
+        }
     }
 
+//    public function createAnswerActionGet(): object
+//    {
+//        $page = $this->di->get("page");
+//        $questionId = $this->di->get("request")->getGet()["question_id"];
+//        var_dump($questionId);
+//        $form = new \Forum\Answer\HTMLForm\CreateForm($this->di, $questionId);
+//        $answer = new Answer();
+//        $answer->setDb($this->di->get("dbqb"));
+//        $page->add("forum/create_answer", [
+//            "form" => $form->getHTML(),
+////            Lista på frågor
+////            form -> getHTML för att ställa fråga
+//        ]);
+//
+//        return $page->render([
+//            "title" => "Answer page",
+//        ]);
+//    }
+//
 
 
     /**

@@ -50,22 +50,27 @@ class AnswerController implements ContainerInjectableInterface
     public function indexActionGet(): object
     {
         $page = $this->di->get("page");
-        $params = $this->di->get("request")->getGet();
-        var_dump($params);
-        $answer = new Answer();
-        $form = new CreateForm($this->di);
-        $answer->setDb($this->di->get("dbqb"));
-        $answer->setId($params[0]);
+        $user_id = $this->di->get("session")->get("user_id");
+        var_dump($user_id);
+        if (!$user_id) {
+            $this->di->get("response")->redirect("user/login");
+        }
+    }
+
+    public function createAction(int $questionId) : object
+    {
+        $page = $this->di->get("page");
+        $form = new CreateForm($this->di, $questionId);
+        $form->check();
         $page->add("forum/create_answer", [
-            "form" => $form->getHTML(),
-//            Lista på frågor
-//            form -> getHTML för att ställa fråga
+            "form" => $form->getHTML()
         ]);
 
         return $page->render([
-            "title" => "Answer page",
+            "title" => "Create a item",
         ]);
     }
+
 
 
 

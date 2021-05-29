@@ -5,6 +5,7 @@ namespace Forum\Question;
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 use Forum\Answer\Answer;
+use Forum\Comment\Comment;
 use Forum\Question\HTMLForm\CreateForm;
 use Forum\Forum\HTMLForm\DeleteForm;
 use Forum\Forum\HTMLForm\UpdateForm;
@@ -73,17 +74,39 @@ class QuestionController implements ContainerInjectableInterface
         }
         else {
             $answer = new Answer;
+            $comment = new Comment;
             $answer->setDb($this->di->get("dbqb"));
+            $comment->setDb($this->di->get("dbqb"));
             $question->setDb($this->di->get("dbqb"));
             $data = [
                 "questions" => $question->findAll(),
                 "answers" => $answer->findAll(),
+                "comments" => $comment->findAll(),
                 "title" => "A index page"
             ];
 
             $page->add("forum/question", $data);
             return $page->render($data);
         }
+    }
+
+    public function readAction($questionId) {
+        $page = $this->di->get("page");
+        $question = new Question();
+        $question->setDb($this->di->get("dbqb"));
+        $questionText = $question->findById($questionId);
+        $answer = new Answer;
+        $comment = new Comment;
+        $answer->setDb($this->di->get("dbqb"));
+        $comment->setDb($this->di->get("dbqb"));
+        $data = [
+            "question" => $questionText,
+            "answers" => $answer->findAll(),
+            "comments" => $comment->findAll(),
+            "title" => "read questions"
+        ];
+        $page->add("forum/read_question", $data);
+        return $page->render($data);
     }
 
 //    public function createAnswerActionGet(): object

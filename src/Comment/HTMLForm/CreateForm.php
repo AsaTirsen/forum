@@ -1,9 +1,10 @@
 <?php
 
-namespace Forum\Answer\HTMLForm;
+namespace Forum\Comment\HTMLForm;
 
 use Anax\HTMLForm\FormModel;
 use Forum\Answer\Answer;
+use Forum\Comment\Comment;
 use Forum\User\User;
 use Psr\Container\ContainerInterface;
 
@@ -19,7 +20,7 @@ class CreateForm extends FormModel
      * @param ContainerInterface $di a service container
      * @param string $questionId the id of the question
      */
-    public function __construct(ContainerInterface $di, string $questionId)
+    public function __construct(ContainerInterface $di, string $questionId, string $answerId)
     {
         error_log("constructor called");
         parent::__construct($di);
@@ -29,9 +30,14 @@ class CreateForm extends FormModel
                 "legend" => "Skapa svar",
             ],
             [
-                "svar" => [
+                "kommentar" => [
                     "type" => "textarea",
                     "validation" => ["not_empty"],
+                ],
+
+                "answer_id" => [
+                    "type"        => "hidden",
+                    "value"       => $answerId,
                 ],
 
                 "question_id" => [
@@ -59,13 +65,20 @@ class CreateForm extends FormModel
     public function callbackSubmit() : bool
     {
         error_log("callbacksubmit");
-        $answer = new Answer();
-        $answer->setDb($this->di->get("dbqb"));
-        $answer->answer = $this->form->value("svar");
-        $answer->question_id = $this->form->value("question_id");
-        $answer->user_id = $this->di->get("session")->get("user_id");
-        var_dump($answer->user_id);
-        $answer->save();
+        $comment = new Comment();
+        $comment->setDb($this->di->get("dbqb"));
+        $comment->comment = $this->form->value("kommentar");
+        $answerId = $this->form->value("answer_id");
+        if (!empty($answerId)) {
+            $comment->answer_id = $answerId;
+        }
+        $questionId = $this->form->value("question_id");
+        if (!empty($questionId)) {
+            $comment->question_id = $questionId;
+        }
+        $comment->user_id = $this->di->get("session")->get("user_id");
+        var_dump($comment->user_id);
+        $comment->save();
         return true;
     }
 
@@ -78,7 +91,17 @@ class CreateForm extends FormModel
      */
     public function callbackSuccess()
     {
-        $this->di->get("response")->redirect("question/read/" . $this->form->value("question_id"))->send();
+        $questionId = $this->form->value("question_id");
+        if (!empty($questionId)) {
+            $this->di->get("response")->redirect("question/read/" . $questionId)->send();
+        }
+        $answerId = $this->form->value("answer_id");
+        if (!empty($answerId)) {
+            $answer = new Answer();
+            $answer->setDb($this->di->get("dbqb"));
+            $answer->findById($answerId);
+            $this->di->get("response")->redirect("question/read/" . $answer->question_id)->send();
+        }
     }
 
 
@@ -91,7 +114,6 @@ class CreateForm extends FormModel
       */
      public function callbackFail()
      {
-         error_log("No go");
          $this->di->get("response")->redirectSelf()->send();
      }
 }

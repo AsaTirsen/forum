@@ -24,11 +24,11 @@ $urlToAskQuestion = url("question/create");
 $answers = isset($answers) ? $answers : null;
 
 
-?><h1>Questions and answers</h1>
+?><h1>Frågor</h1>
 
 
 <?php if (!$questions) : ?>
-    <p>There are no questions to show.</p>
+    <p>Det finns inga frågor.</p>
     <?php
     return;
 endif;
@@ -36,33 +36,18 @@ endif;
 
 <table>
     <?php foreach ($questions as $question) : ?>
-
     <tr>
         <th>Titel</th>
         <td>
-            <a href="<?= url("question/update/{$question->id}"); ?>"><?= $question->title ?></a>
+            <a href="<?= url("question/read/{$question->id}"); ?>"><?= $question->title ?></a>
         </td>
     </tr>
     <tr>
         <th>Fråga</th>
         <td>
-            <a href="<?= url("question/update/{$question->id}"); ?>"><?= $question->question ?></a>
-        </td>
-    <tr>
-    <tr>
-        <?php foreach ($answers as $answer) : ?>
-        <tr>
-            <th>Svar</th>
-            <td><?= $answer->answer?></td>
-        </tr>
-        <?php endforeach; ?>
-    </tr>
-    <tr>
-
-        <th>Svar på frågan</th>
-        <td>
-            <a href="<?= url("answer/create/{$question->id}"); ?>">Svara på frågan</a>
+            <a href="<?= url("question/read/{$question->id}"); ?>"><?= $question->question ?></a>
         </td>
     </tr>
     <?php endforeach; ?>
 </table>
+

@@ -2,9 +2,11 @@
 namespace Anax\View;
 
 //Create urls for navigation
+use Anax\TextFilter\TextFilter;
 use function Anax\View\url;
 
 $urlToAskQuestion = url("question/create");
+
 
 
 
@@ -14,6 +16,7 @@ $comments = $data["comments"];
 $tags = $data["tags"];
 $answerComments = $data["answerComments"];
 
+$filter = new TextFilter();
 
 ?>
 
@@ -33,10 +36,15 @@ Tags:
 (inga taggar)
 <?php endif ?>
 
-<p><?= $question->question ?></p>
+<p>
+    <?= $filter->parse($question->question, ["shortcode", "markdown", "clickable", "bbcode"])->text ?>
+</p>
+
 <h4>Comments</h4>
 <?php foreach ($comments as $comment) : ?>
-    <p><?= $comment->comment ?></p>
+    <p>
+        <?= $filter->parse($comment->comment, ["shortcode", "markdown", "clickable", "bbcode"])->text ?>
+    </p>
 <?php endforeach; ?>
 <p><a href="<?= url("comment/question/{$question->id}"); ?>">Comment on question</a></p>
 
@@ -45,12 +53,14 @@ Tags:
 <?php foreach ($answers as $answer) : ?>
 <h3>Answer</h3>
 <p>
-    <?= $answer->answer?>
+    <?= $filter->parse($answer->answer, ["shortcode", "markdown", "clickable", "bbcode"])->text ?>
 </p>
 <h4>Comments</h4>
 <?php foreach ($answerComments as $comment) : ?>
     <?php if ($comment->answer_id == $answer->id) : ?>
-        <p><?= $comment->comment ?></p>
+        <p>
+            <?= $filter->parse($comment->comment, ["shortcode", "markdown", "clickable", "bbcode"])->text ?>
+        </p>
     <?php endif ?>
 <?php endforeach; ?>
 <p><a href="<?= url("comment/answer/{$answer->id}"); ?>">Comment on answer</a></p>

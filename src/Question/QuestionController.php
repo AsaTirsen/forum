@@ -56,7 +56,6 @@ class QuestionController implements ContainerInjectableInterface
         $page = $this->di->get("page");
         $question = new Question();
         $user_id = $this->di->get("session")->get("user_id");
-        var_dump($user_id);
         if (!$user_id) {
             $this->di->get("response")->redirect("user/login");
         }

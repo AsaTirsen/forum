@@ -12,78 +12,44 @@ $mostPopularTags = $data["mostPopularTags"];
 $mostRecentQuestions = $data["mostRecentQuestions"];
 ?>
 
-<h1>Välkommen till forumet <img src="<?= $user->getGravatar() ?>" alt="" /> <?=$user->acronym?></h1>
+<h1>Välkommen till forumet <img src="<?= $user->getGravatar() ?>" alt=""/> <?= $user->acronym ?></h1>
 
-<!--<img src="--><?php //isset($data["gravatar"]) ?? "no image"; ?><!--" alt="" />-->
-
-<p>Senaste frågorna</p>
-
-<?php foreach ($mostRecentQuestions as $question) : ?>
-    <p>
-        <a href="<?= url("question/read/{$question->id}"); ?>">
-            <?=$question->title?>
-        </a>
-    </p>
-<?php endforeach ?>
-
-
-<p>Mest aktiva användare</p>
-
-<?php if (empty($mostActiveUsers)) : ?>
-Ingen användare har någon aktivitet
-<?php endif ?>
-
-<?php foreach ($mostActiveUsers as $user) : ?>
-    <a href="<?= url("question?user_id={$user->id}"); ?>">
-    <img src="<?= $user->getGravatar() ?>" alt="" />
-    <?=$user->acronym?>
-    </a>
-<?php endforeach ?>
-
-<p>Populäraste taggarna</p>
-
-<?php if (empty($mostPopularTags)) : ?>
-    Ingen användare har någon aktivitet
-<?php endif ?>
-
-<?php foreach ($mostPopularTags as $tag) : ?>
-    <a href="<?= url("tag?tag_id={$tag->id}"); ?>"><?= $tag->name ?></a>
-<?php endforeach ?>
-
-
-<!--Gather incoming variables and use default values if not set-->
-    <?php $questions = isset($data["questions"]) ? $data["questions"]: null;
-
-
-
-    ?><h1>View </h1>
-
-    <p>
-        <a href="<?= $urlToCreate ?>">Create</a> |
-        <a href="<?= $urlToDelete ?>">Delete</a>
-    </p>
-
-    <?php if (!$questions) : ?>
-    <p>There are no items to show.</p>
-    <?php
-    return;
-endif;
-?>
-
+<!--<img src="--><?php //isset($data["gravatar"]) ?? "no image";
+?><!--" alt="" />-->
 <table>
     <tr>
-        <th>Titel</th>
-        <th>Fråga</th>
+        <th>Senaste frågorna</th>
+        <th>Mest aktiva användare</th>
+        <th>Populäraste taggarna</th>
     </tr>
-    <?php foreach ($questions as $item) : ?>
-        <tr>
-            <td>
-                <a href="<?= url("question/read/{$item->id}"); ?>"><?= $item->title ?></a>
-            </td>
-            <td>
-                <a href="<?= url("question/read/{$item->id}"); ?>"><?= $item->question ?></a>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+<tr>
+    <td><?php foreach ($mostRecentQuestions as $question) : ?>
+        <p>
+            <a href="<?= url("question/read/{$question->id}"); ?>">
+                <?= $question->title ?>
+            </a>
+        </p>
+    <?php endforeach ?></td>
 
+
+    <?php if (empty($mostActiveUsers)) : ?>
+        Ingen användare har någon aktivitet
+    <?php endif ?>
+
+    <td><?php foreach ($mostActiveUsers as $user) : ?>
+     <p><a href="<?= url("question?user_id={$user->id}"); ?>">
+            <img src="<?= $user->getGravatar() ?>" alt=""/>
+            <?= $user->acronym ?>
+        </a></p>
+    <?php endforeach ?></td>
+
+
+        <?php if (empty($mostPopularTags)) : ?>
+            Ingen användare har någon aktivitet
+        <?php endif ?>
+
+    <td><?php foreach ($mostPopularTags as $tag) : ?>
+    <p><a href="<?= url("tag?tag_id={$tag->id}"); ?>"><?= $tag->name ?></a></p>
+        <?php endforeach ?></td>
+</tr>
+</table>

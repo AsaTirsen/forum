@@ -1,13 +1,13 @@
 <?php
 
-namespace Forum\Answer;
+namespace Forum\Tag;
 
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
-use Forum\Answer\HTMLForm\CreateForm;
+use Forum\Question\Question;
+use Forum\Question\HTMLForm\CreateForm;
 use Forum\Forum\HTMLForm\DeleteForm;
 use Forum\Forum\HTMLForm\UpdateForm;
-use Forum\Question\Question;
 
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
@@ -16,7 +16,7 @@ use Forum\Question\Question;
 /**
  * A sample controller to show how a controller class can be implemented.
  */
-class AnswerController implements ContainerInjectableInterface
+class TagController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
 
@@ -51,30 +51,73 @@ class AnswerController implements ContainerInjectableInterface
      */
     public function indexActionGet(): object
     {
+        $page = $this->di->get("page");
         $user_id = $this->di->get("session")->get("user_id");
-        var_dump($user_id);
+        $questionArray = [];
+        $tag = new Tag;
+        $tag->setDb($this->di->get("dbqb"));
         if (!$user_id) {
             $this->di->get("response")->redirect("user/login");
         }
-    }
+        $params = $this->di->get("request")->getGet();
+        if ($params) {
+            $tag_id = $params["tag_id"];
+            $question = new Question();
+            $question->setDb($this->di->get("dbqb"));
+            $questionArray = $question->findAllWhere(
+                "id in (select question_id from TagQuestion where tag_id=?)",
+                $tag_id);
+        }
 
-    public function createAction(int $questionId): object
-    {
-        $page = $this->di->get("page");
-        $form = new CreateForm($this->di, $questionId);
-        $question = new Question();
-        $question->setDb($this->di->get("dbqb"));
-        $form->check();
-        $questionText = $question->findById($questionId)->question;
-        var_dump($questionText);
         $data = [
-            "form" => $form->getHTML(),
-            "question" => $questionText,
-            "title" => "create answer",
+            "tags" => $tag->findAll(),
+            "title" => "Tag page",
+            "questionsArray" => $questionArray,
+            "selectedTagId" => isset($params["tag_id"]) ? $params["tag_id"] : null
         ];
-        $page->add("forum/create_answer", $data);
+        $page->add("forum/tag", $data);
         return $page->render($data);
     }
+    //TODO if params, then find that tag id in tagQuestion and the question id for that tag
+    //find the questions from Question with that question id and publish on question/tagged
+
+
+    /**
+     * Handler with form to create a new item.
+     *
+     * @return object as a response object
+     */
+//    public
+//    function createAction(): object
+//    {
+//        $page = $this->di->get("page");
+//        $form = new CreateForm($this->di);
+//        $form->check();
+//
+//        $page->add("forum/create_question", [
+//            "form" => $form->getHTML()
+//        ]);
+//
+//        return $page->render([
+//            "title" => "Create a item",
+//        ]);
+//    }
+
+//    public function answerAction()
+//    {
+//        $page = $this->di->get("page");
+//        $form = new CreateForm($this->di);
+//        $form->check();
+//        $answer = new Answer();
+//        $answer->setDb($this->di->get("dbqb"));
+//        $page->add("forum/create_answer", [
+//            "form" => $form->getHTML()
+//        ]);
+//
+//        return $page->render([
+//            "title" => "Delete an item",
+//        ]);
+//    }
 
 
     /**
@@ -82,7 +125,8 @@ class AnswerController implements ContainerInjectableInterface
      *
      * @return object as a response object
      */
-    public function deleteAction(): object
+    public
+    function deleteAction(): object
     {
         $page = $this->di->get("page");
         $form = new DeleteForm($this->di);
@@ -105,7 +149,8 @@ class AnswerController implements ContainerInjectableInterface
      *
      * @return object as a response object
      */
-    public function updateAction(int $id): object
+    public
+    function updateAction(int $id): object
     {
         $page = $this->di->get("page");
         $form = new UpdateForm($this->di, $id);

@@ -8,28 +8,26 @@ class CurlService
 
     public function curlGravatar(string $email)
     {
-        var_dump($email);
-        $default = "https://www.somewhere.com/homestar.jpg";
         $size = 40;
-        $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
+        $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon" . "&s=" . $size;
 
+//
+//        //  Initiate curl handler
+//        $ch = curl_init();
+//
+//        // Will return the response, if false it print the response
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//
+//        // Set the url
+//        curl_setopt($ch, CURLOPT_URL, $grav_url);
+//
+//        // Execute
+//        $data = curl_exec($ch);
+//
+//        // Closing
+//        curl_close($ch);
 
-        //  Initiate curl handler
-        $ch = curl_init();
-
-        // Will return the response, if false it print the response
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        // Set the url
-        curl_setopt($ch, CURLOPT_URL, $grav_url);
-
-        // Execute
-        $data = curl_exec($ch);
-
-        // Closing
-        curl_close($ch);
-
-        return $data;
+        return $grav_url;
     }
 
 //    public function getMultipleCurls ($fetchURL, $dateArray, $fetchURLPart2)

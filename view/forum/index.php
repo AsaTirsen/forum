@@ -6,9 +6,9 @@ use function Anax\View\url;
 
 $urlToAskQuestion = url("question");
 
-
-
-?><h1>Välkommen till forumet</h1>
+$user = $data["user"];
+$gravatar = $data["gravatar"];
+?><h1>Välkommen till forumet <img src="<?php echo $gravatar; ?>" alt="" /> <?=$user->acronym?></h1>
 
 <!--<img src="--><?php //isset($data["gravatar"]) ?? "no image"; ?><!--" alt="" />-->
 
@@ -19,7 +19,7 @@ $urlToAskQuestion = url("question");
 <p>Populäraste taggarna</p>
 
 <!--Gather incoming variables and use default values if not set-->
-    <?php $items = isset($items) ? $items : null;
+    <?php $questions = isset($data["questions"]) ? $data["questions"]: null;
 
 
 
@@ -30,7 +30,7 @@ $urlToAskQuestion = url("question");
         <a href="<?= $urlToDelete ?>">Delete</a>
     </p>
 
-    <?php if (!$items) : ?>
+    <?php if (!$questions) : ?>
     <p>There are no items to show.</p>
     <?php
     return;
@@ -42,7 +42,7 @@ endif;
         <th>Titel</th>
         <th>Fråga</th>
     </tr>
-    <?php foreach ($items as $item) : ?>
+    <?php foreach ($questions as $item) : ?>
         <tr>
             <td>
                 <a href="<?= url("question/{$item->id}"); ?>"><?= $item->title ?></a>

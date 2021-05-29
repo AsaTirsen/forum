@@ -1,12 +1,8 @@
 <?php
 namespace Anax\View;
 
-//Create urls for navigation
-use function Anax\View\url;
+?><h1>Fråga</h1>
+<p><?= $data["question"] ?></p>
 
-
-
-
-?><h1>Svara på frågan</h1>
-<!--<img src="--><?php //isset($data["gravatar"]) ?? "no image"; ?><!--" alt="" />-->
+<h1>Svara på frågan</h1>
 <?= $data["form"] ?>

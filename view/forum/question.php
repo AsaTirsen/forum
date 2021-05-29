@@ -64,18 +64,5 @@ endif;
             <a href="<?= url("answer/create/{$question->id}"); ?>">Svara på frågan</a>
         </td>
     </tr>
-    <?php endforeach;
-    //    if ($answers = "") {
-    //
-    ?><!--<tr><td>Inget svar än</td></tr>-->
-    <!--    --><?php //}
-    //    else {
-    //    foreach ($answers as $answer)
-    ?>
-    <!--    <tr>-->
-    <!--        <td>--><? //=$answer->answer
-    ?><!--</td>-->
-    <!--    </tr>-->
-    <!--    --><?php //endforeach;
-    ?>
+    <?php endforeach; ?>
 </table>

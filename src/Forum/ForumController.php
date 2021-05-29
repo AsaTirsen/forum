@@ -4,6 +4,7 @@ namespace Forum\Forum;
 
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
+use Forum\Gravatar\CurlService;
 use Forum\User\User;
 use Forum\Question\Question;
 
@@ -51,14 +52,20 @@ class ForumController implements ContainerInjectableInterface
     {
         $page = $this->di->get("page");
         $question = new Question();
+        $user = new User();
+        $user_id = $this->di->get("session")->get("user_id");
         $question->setDb($this->di->get("dbqb"));
-        $page->add("forum/index", [
-            "items" => $question->findAll()
-    ]);
+        $user->setDb($this->di->get("dbqb"));
+        $curlService = new CurlService();
+        $gravatar = $curlService->curlGravatar($user->findById($user_id)->email);
+        $data = [
+            "questions" => $question->findAll(),
+            "user" => $user->findById($user_id),
+            "gravatar" => $gravatar,
+            "title" => "Index page"
+        ];
 
-        return $page->render([
-            "title" => "A index page",
-        ]);
+        $page->add("forum/index", $data);
+        return $page->render($data);
     }
-
 }

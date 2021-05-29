@@ -87,10 +87,16 @@ class ForumController implements ContainerInjectableInterface
                 group by tag_id
             ) order by count desc limit 10
         )", []);
+        $mostRecentQuestions = $db->connect()
+            ->execute(
+                "select * from Question order by created desc limit 5"
+                , [])
+            ->fetchAllClass(Question::class);
         $data = [
             "questions" => $question->findAll(),
             "mostActiveUsers" => $mostActiveUsers,
             "mostPopularTags" => $mostPopularTags,
+            "mostRecentQuestions" => $mostRecentQuestions,
             "user" => $user->findById($user_id),
             "title" => "Index page"
         ];

@@ -9,11 +9,23 @@ $urlToAskQuestion = url("question");
 $user = $data["user"];
 $mostActiveUsers = $data["mostActiveUsers"];
 $mostPopularTags = $data["mostPopularTags"];
-?><h1>Välkommen till forumet <img src="<?= $user->getGravatar() ?>" alt="" /> <?=$user->acronym?></h1>
+$mostRecentQuestions = $data["mostRecentQuestions"];
+?>
+
+<h1>Välkommen till forumet <img src="<?= $user->getGravatar() ?>" alt="" /> <?=$user->acronym?></h1>
 
 <!--<img src="--><?php //isset($data["gravatar"]) ?? "no image"; ?><!--" alt="" />-->
 
 <p>Senaste frågorna</p>
+
+<?php foreach ($mostRecentQuestions as $question) : ?>
+    <p>
+        <a href="<?= url("question/read/{$question->id}"); ?>">
+            <?=$question->title?>
+        </a>
+    </p>
+<?php endforeach ?>
+
 
 <p>Mest aktiva användare</p>
 

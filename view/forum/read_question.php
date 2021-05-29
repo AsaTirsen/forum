@@ -9,12 +9,12 @@ $urlToAskQuestion = url("question/create");
 
 
 $question = $data["question"];
-$question = isset($question) ? $question : null;
-$answers = isset($answers) ? $answers : null;
+$answers = $data["answers"];
+$comments = $data["comments"];
+$answerComments = $data["answerComments"];
 
 
-?><h1>Question and answers</h1>
-
+?>
 
 <?php if (!$question) : ?>
     <p>There are no questions to show.</p>
@@ -23,35 +23,29 @@ $answers = isset($answers) ? $answers : null;
 endif;
 ?>
 
-<table>
-    <tr>
-        <th>Titel</th>
-        <td>
-            <p><?= $question->title ?></p>
-        </td>
-    </tr>
-    <tr>
-        <th>Fråga</th>
-        <td>
-            <p><?= $question->question ?></p>
-       <a href="<?= url("comment/question/{$question->id}"); ?>">Comment on question</a>
+<h1><?= $question->title ?></h1>
+<p><?= $question->question ?></p>
+<h4>Comments</h4>
+<?php foreach ($comments as $comment) : ?>
+    <p><?= $comment->comment ?></p>
+<?php endforeach; ?>
+<p><a href="<?= url("comment/question/{$question->id}"); ?>">Comment on question</a></p>
 
-        </td>
-    </tr>
-    <tr>
-        <?php foreach ($answers as $answer) : ?>
-        <tr>
-            <th>Svar</th>
-            <td><?= $answer->answer?><a href="<?= url("comment/answer/{$answer->id}"); ?>">Comment on answer</a>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    <tr>
+<p><a href="<?= url("answer/create/{$question->id}"); ?>">Svara på frågan</a></p>
 
-        <th>Svara på frågan</th>
-        <td>
-            <a href="<?= url("answer/create/{$question->id}"); ?>">Svara på frågan</a>
-        </td>
-    </tr>
-</table>
+<?php foreach ($answers as $answer) : ?>
+<h3>Answer</h3>
+<p>
+    <?= $answer->answer?>
+</p>
+<h4>Comments</h4>
+<?php foreach ($answerComments as $comment) : ?>
+    <?php if ($comment->answer_id == $answer->id) : ?>
+        <p><?= $comment->comment ?></p>
+    <?php endif ?>
+<?php endforeach; ?>
+<p><a href="<?= url("comment/answer/{$answer->id}"); ?>">Comment on answer</a></p>
+
+<?php endforeach; ?>
+
 

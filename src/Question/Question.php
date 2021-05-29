@@ -3,6 +3,7 @@
 namespace Forum\Question;
 
 use Anax\DatabaseActiveRecord\ActiveRecordModel;
+use Forum\Comment\Comment;
 
 /**
  * A database driven model using the Active Record design pattern.

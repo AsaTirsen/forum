@@ -3,6 +3,7 @@
 namespace Forum\Answer;
 
 use Anax\DatabaseActiveRecord\ActiveRecordModel;
+use Forum\Comment\Comment;
 
 /**
  * A database driven model using the Active Record design pattern.
@@ -29,4 +30,5 @@ class Answer extends ActiveRecordModel
     public $updated;
     public $deleted;
     public $active;
+
 }

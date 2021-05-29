@@ -99,10 +99,14 @@ class QuestionController implements ContainerInjectableInterface
         $comment = new Comment;
         $answer->setDb($this->di->get("dbqb"));
         $comment->setDb($this->di->get("dbqb"));
+        $answerComments = $comment->findAllWhere(
+            "answer_id in (select id from Answer where question_id = ?)",
+            $questionId);
         $data = [
             "question" => $questionText,
-            "answers" => $answer->findAll(),
-            "comments" => $comment->findAll(),
+            "answers" => $answer->findAllWhere("question_id = ?", $questionId),
+            "comments" => $comment->findAllWhere("question_id = ?", $questionId),
+            "answerComments" => $answerComments,
             "title" => "read questions"
         ];
         $page->add("forum/read_question", $data);

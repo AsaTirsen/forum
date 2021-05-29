@@ -9,6 +9,8 @@ use Forum\Comment\Comment;
 use Forum\Question\HTMLForm\CreateForm;
 use Forum\Forum\HTMLForm\DeleteForm;
 use Forum\Forum\HTMLForm\UpdateForm;
+use Forum\Tag\Tag;
+
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
 // use Anax\Route\Exception\InternalErrorException;
@@ -59,35 +61,23 @@ class QuestionController implements ContainerInjectableInterface
             $this->di->get("response")->redirect("user/login");
         }
         $params = $this->di->get("request")->getGet();
-        if ($params) {
-            $questionId = $this->di->get("request")->getGet()["question_id"];
-            var_dump($questionId);
-            $form = new \Forum\Answer\HTMLForm\CreateForm($this->di, $questionId);
-            $form->check();
-            $data = [
-                "form" => $form->getHTML(),
-                "title" => "Answer page"
-            ];
-
-            $page->add("forum/create_answer", $data);
-            return $page->render($data);
+        $answer = new Answer;
+        $comment = new Comment;
+        $answer->setDb($this->di->get("dbqb"));
+        $comment->setDb($this->di->get("dbqb"));
+        $question->setDb($this->di->get("dbqb"));
+        if (isset($params["user_id"])) {
+            $questions = $question->findAllWhere("user_id = ?", $params["user_id"]);
+        } else {
+            $questions = $question->findAll();
         }
-        else {
-            $answer = new Answer;
-            $comment = new Comment;
-            $answer->setDb($this->di->get("dbqb"));
-            $comment->setDb($this->di->get("dbqb"));
-            $question->setDb($this->di->get("dbqb"));
-            $data = [
-                "questions" => $question->findAll(),
-                "answers" => $answer->findAll(),
-                "comments" => $comment->findAll(),
-                "title" => "A index page"
-            ];
+        $data = [
+            "questions" => $questions,
+            "title" => "A index page"
+        ];
 
-            $page->add("forum/question", $data);
-            return $page->render($data);
-        }
+        $page->add("forum/question", $data);
+        return $page->render($data);
     }
 
     public function readAction($questionId) {
@@ -97,8 +87,11 @@ class QuestionController implements ContainerInjectableInterface
         $questionText = $question->findById($questionId);
         $answer = new Answer;
         $comment = new Comment;
+        $tag = new Tag;
         $answer->setDb($this->di->get("dbqb"));
         $comment->setDb($this->di->get("dbqb"));
+        $tag->setDb($this->di->get("dbqb"));
+        $tags = $tag->findAllWhere("id in (select tag_id from TagQuestion where question_id = ?)", $questionId);
         $answerComments = $comment->findAllWhere(
             "answer_id in (select id from Answer where question_id = ?)",
             $questionId);
@@ -106,6 +99,7 @@ class QuestionController implements ContainerInjectableInterface
             "question" => $questionText,
             "answers" => $answer->findAllWhere("question_id = ?", $questionId),
             "comments" => $comment->findAllWhere("question_id = ?", $questionId),
+            "tags" => $tags,
             "answerComments" => $answerComments,
             "title" => "read questions"
         ];

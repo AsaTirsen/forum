@@ -55,10 +55,9 @@ class User extends ActiveRecordModel
         return password_verify($password, $this->password);
     }
 
-    public function setGravatar()
+    public function getGravatar()
     {
-        $curlGravatar = new CurlService();
-        $email = $this->email;
-        return $curlGravatar->curlGravatar($email);
+        $size = 40;
+        return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->email))) . "?d=identicon" . "&s=" . $size;
     }
 }

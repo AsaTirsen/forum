@@ -86,10 +86,6 @@ class UserController implements ContainerInjectableInterface
         return $page->render($data);
     }
 
-    //else "gravatar" => $user->setGravatar()
-    //        ]);
-
-
     /**
      * Description.
      *

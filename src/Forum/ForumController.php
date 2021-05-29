@@ -5,6 +5,7 @@ namespace Forum\Forum;
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 use Forum\Gravatar\CurlService;
+use Forum\Tag\Tag;
 use Forum\User\User;
 use Forum\Question\Question;
 
@@ -53,15 +54,44 @@ class ForumController implements ContainerInjectableInterface
         $page = $this->di->get("page");
         $question = new Question();
         $user = new User();
+        $tag = new Tag();
         $user_id = $this->di->get("session")->get("user_id");
-        $question->setDb($this->di->get("dbqb"));
-        $user->setDb($this->di->get("dbqb"));
-        $curlService = new CurlService();
-        $gravatar = $curlService->curlGravatar($user->findById($user_id)->email);
+        $db = $this->di->get("dbqb");
+        $question->setDb($db);
+        $user->setDb($db);
+        $tag->setDb($db);
+        $mostActiveUsers = $user->findAllWhere("id in (
+        select user_id
+        from (select sum(count) as count, user_id
+              from (
+                       select count(id) as count, user_id
+                       from Question
+                       group by user_id
+                       union
+                       select count(id) as count, user_id
+                       from Comment
+                       group by user_id
+                       union
+                       select count(id) as count, user_id
+                       from Answer
+                       group by user_id
+                   )
+              group by user_id
+             ) order by count limit 10
+        )", []);
+        $mostPopularTags = $tag->findAllWhere("id in (
+            select tag_id
+            from (
+                select count(question_id) as count, tag_id
+                from TagQuestion
+                group by tag_id
+            ) order by count desc limit 10
+        )", []);
         $data = [
             "questions" => $question->findAll(),
+            "mostActiveUsers" => $mostActiveUsers,
+            "mostPopularTags" => $mostPopularTags,
             "user" => $user->findById($user_id),
-            "gravatar" => $gravatar,
             "title" => "Index page"
         ];
 

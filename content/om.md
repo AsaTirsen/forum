@@ -19,10 +19,7 @@ views:
 Om
 =========================
 
-Detta innehåll är skrivet i markdown och du hittar innehållet i filen `content/om.md`.
+Denna modul är framtagen som ett verktyg som kan avändas i forum.
+Användare kan under inlogg skriva frågor, svar och kommentera. 
 
-Skriv några kloka ord om kursen?
-
-Lägg till en representativ bild för kursen, enligt ditt egna val.
-
-[FIGURE src=image/car.png?w=300 caption="En fin bil som demobild."]
+Modulen är utvecklad av Åsa Tirsén, student på BTH:s två-åriga Webbprogrammeringsprogram på distans.

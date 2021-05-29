@@ -69,6 +69,7 @@ class CreateForm extends FormModel
         $question->question = $this->form->value("fråga");
 //        $question->tag = $tag;
         $question->user_id = $user_id;
+        $question->created = date(DATE_RFC822);
         $question->save();
 
         $tags = $this->form->value("tags");
@@ -80,11 +81,11 @@ class CreateForm extends FormModel
             $tag = new Tag();
             $tag->setDb($this->di->get("dbqb"));
             $tag->find("name", $tagName);
-            if($tag->id == null) {
+            if ($tag->id == null) {
                 $tag->name = $tagName;
                 $tag->save();
-                array_push($tagObjectsArray, $tag);
             }
+            array_push($tagObjectsArray, $tag);
         }
         // For each Tag object in $tagObjectsArray
         //   Create a new TagQuestion object with tag_id and question_id

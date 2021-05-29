@@ -1,3 +1,3 @@
-#### Kursrepo
+#### Packagist
+Du kan installera modulen från [Packagist](https://packagist.org/packages/asti/)
 
-Skriv något kort om kursen och länka till [kursens hemsida på dbwebb.se](XXX) och till [kursrepot på GitHub](XXX).

@@ -11,6 +11,7 @@ $urlToAskQuestion = url("question/create");
 $question = $data["question"];
 $answers = $data["answers"];
 $comments = $data["comments"];
+$tags = $data["tags"];
 $answerComments = $data["answerComments"];
 
 
@@ -24,6 +25,14 @@ endif;
 ?>
 
 <h1><?= $question->title ?></h1>
+Tags:
+<?php foreach ($tags as $tag) : ?>
+    <?= $tag->name ?>
+<?php endforeach; ?>
+<?php if (empty($tags)) : ?>
+(inga taggar)
+<?php endif ?>
+
 <p><?= $question->question ?></p>
 <h4>Comments</h4>
 <?php foreach ($comments as $comment) : ?>

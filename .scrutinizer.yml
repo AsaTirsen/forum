@@ -6,6 +6,12 @@ filter:
 
 build:
 
+  nodes:
+    my-tests:
+      environment:
+        php:
+          version: 7.3
+
   dependencies:
     before:
       - "mkdir -p /home/scrutinizer/build/cache/anax"

@@ -4,7 +4,6 @@ namespace Forum\Forum;
 
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
-use Forum\Gravatar\CurlService;
 use Forum\Tag\Tag;
 use Forum\User\User;
 use Forum\Question\Question;
@@ -104,4 +103,5 @@ class ForumController implements ContainerInjectableInterface
         $page->add("forum/index", $data);
         return $page->render($data);
     }
+
 }

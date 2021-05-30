@@ -8,8 +8,6 @@ build:
 
   dependencies:
     before:
-      - "cd"
-      - "sudo composer self-update"
       - "mkdir -p /home/scrutinizer/build/cache/anax"
       - "mkdir -p /home/scrutinizer/build/build/coverage.clover"
 

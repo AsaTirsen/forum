@@ -2,7 +2,9 @@
 namespace Anax\View;
 
 //Create urls for navigation
+use Anax\TextFilter\TextFilter;
 use function Anax\View\url;
+$filter = new TextFilter();
 
 $urlToAskQuestion = url("question");
 
@@ -26,7 +28,7 @@ $mostRecentQuestions = $data["mostRecentQuestions"];
     <td><?php foreach ($mostRecentQuestions as $question) : ?>
         <p>
             <a href="<?= url("question/read/{$question->id}"); ?>">
-                <?= $question->title ?>
+                <?= $filter->parse($question->title, ["shortcode", "markdown", "clickable", "bbcode"])->text?>
             </a>
         </p>
     <?php endforeach ?></td>

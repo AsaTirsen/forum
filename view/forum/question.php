@@ -2,6 +2,7 @@
 namespace Anax\View;
 
 //Create urls for navigation
+use Anax\TextFilter\TextFilter;
 use function Anax\View\url;
 
 $urlToAskQuestion = url("question/create");
@@ -20,7 +21,7 @@ $urlToAskQuestion = url("question/create");
 <!--Gather incoming variables and use default values if not set-->
 <?php $questions = isset($questions) ? $questions : null;
 $answers = isset($answers) ? $answers : null;
-
+$filter = new TextFilter();
 
 ?><h1>Frågor</h1>
 
@@ -35,15 +36,15 @@ endif;
 <table>
     <?php foreach ($questions as $question) : ?>
     <tr>
-        <th>Titel</th>
+        <th><h3>Titel</h3></th>
         <td>
-            <a href="<?= url("question/read/{$question->id}"); ?>"><?= $question->title ?></a>
+                <a href="<?= url("question/read/{$question->id}"); ?>"><?=  $filter->parse($question->title, ["shortcode", "markdown", "clickable", "bbcode"])->text ?></a>
         </td>
     </tr>
     <tr>
-        <th>Fråga</th>
+        <th><h3>Fråga</h3></th>
         <td>
-            <a href="<?= url("question/read/{$question->id}"); ?>"><?= $question->question ?></a>
+            <a href="<?= url("question/read/{$question->id}"); ?>"><?= $filter->parse($question->question, ["shortcode", "markdown", "clickable", "bbcode"])->text ?></a>
         </td>
     </tr>
     <?php endforeach; ?>

@@ -7,13 +7,11 @@ use function Anax\View\url;
 $urlToAskQuestion = url("question/create");
 
 
-?><h1>Välkommen till frågorna</h1>
-<!--<img src="--><?php //isset($data["gravatar"]) ?? "no image";
-?><!--" alt="" />-->
-
-
-<p>
-    <a href="<?= $urlToAskQuestion ?>">Ställ fråga</a>
+?>
+<article>
+    <h1>Välkommen till frågorna</h1>
+<p class="centered">
+  <a href="<?= $urlToAskQuestion ?>">Ställ fråga</a>
 </p>
 <?php
 ?>
@@ -50,4 +48,4 @@ endif;
     </tr>
     <?php endforeach; ?>
 </table>
-
+</article>

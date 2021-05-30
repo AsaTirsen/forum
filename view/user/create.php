@@ -12,7 +12,7 @@ $urlToLogin = url("user/login");
 <!--<img src="--><?php //isset($data["gravatar"]) ?? "no image"; ?><!--" alt="" />-->
 <?= $data["form"] ?>
 
-<p>
+<p id="from-element-submit">
     <a href="<?= $urlToLogin ?>">Logga in</a>
 </p>
 

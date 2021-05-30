@@ -12,13 +12,13 @@ return [
         "region" => "layout",
         "template" => "anax/v2/layout/dbwebb_se",
         "data" => [
-            "baseTitle" => " | ramverk1",
+            "baseTitle" => " | Apples",
             "bodyClass" => null,
             "favicon" => "favicon.ico",
             "htmlClass" => null,
             "lang" => "sv",
             "stylesheets" => [
-                "css/dbwebb-se.min.css",
+                "css/dbwebb-se_v2.min.css",
             ],
             "javascripts" => [
                 "js/responsive-menu.js",
@@ -33,7 +33,7 @@ return [
             "template" => "anax/v2/header/site_logo",
             "data" => [
                 "class" => "large",
-                "siteLogo"      => "image/theme/leaf_256x256.png",
+                "siteLogo"      => "image/theme/granny_smith_2.png",
                 "siteLogoAlt"   => "Löv",
             ],
         ],
@@ -42,7 +42,7 @@ return [
             "template" => "anax/v2/header/site_logo_text",
             "data" => [
                 "homeLink"      => "",
-                "siteLogoText"  => "ramverk1",
+                "siteLogoText"  => "",
                 "siteLogoTextIcon" => "image/theme/leaf_40x40.png",
                 "siteLogoTextIconAlt" => "Löv-bild",
             ],

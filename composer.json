@@ -1,6 +1,6 @@
 {
-    "name" : "anax/noname",
-    "description": "A me page for the ramverk1 course.",
+    "name" : "asatirsen/forum",
+    "description": "A forum module.",
     "license": "MIT",
     "minimum-stability": "beta",
     "prefer-stable": true,
@@ -10,6 +10,12 @@
             "Forum\\": "src/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/asatirsen/forum"
+        }
+    ],
     "require": {
         "anax/anax-ramverk1-me": "^1.0.0",
         "anax/htmlform": "^2.0",

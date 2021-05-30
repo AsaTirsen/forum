@@ -11,12 +11,12 @@ $mostActiveUsers = $data["mostActiveUsers"];
 $mostPopularTags = $data["mostPopularTags"];
 $mostRecentQuestions = $data["mostRecentQuestions"];
 ?>
-
+<article>
 <h1>Välkommen till forumet <img src="<?= $user->getGravatar() ?>" alt=""/> <?= $user->acronym ?></h1>
 
 <!--<img src="--><?php //isset($data["gravatar"]) ?? "no image";
 ?><!--" alt="" />-->
-<table>
+<table class="full-width">
     <tr>
         <th>Senaste frågorna</th>
         <th>Mest aktiva användare</th>
@@ -53,3 +53,4 @@ $mostRecentQuestions = $data["mostRecentQuestions"];
         <?php endforeach ?></td>
 </tr>
 </table>
+</article>

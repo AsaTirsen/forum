@@ -106,27 +106,6 @@ class QuestionController implements ContainerInjectableInterface
         return $page->render($data);
     }
 
-//    public function createAnswerActionGet(): object
-//    {
-//        $page = $this->di->get("page");
-//        $questionId = $this->di->get("request")->getGet()["question_id"];
-//        var_dump($questionId);
-//        $form = new \Forum\Answer\HTMLForm\CreateForm($this->di, $questionId);
-//        $answer = new Answer();
-//        $answer->setDb($this->di->get("dbqb"));
-//        $page->add("forum/create_answer", [
-//            "form" => $form->getHTML(),
-////            Lista på frågor
-////            form -> getHTML för att ställa fråga
-//        ]);
-//
-//        return $page->render([
-//            "title" => "Answer page",
-//        ]);
-//    }
-//
-
-
     /**
      * Handler with form to create a new item.
      *
@@ -164,48 +143,5 @@ class QuestionController implements ContainerInjectableInterface
 
 
 
-    /**
-     * Handler with form to delete an item.
-     *
-     * @return object as a response object
-     */
-    public function deleteAction() : object
-    {
-        $page = $this->di->get("page");
-        $form = new DeleteForm($this->di);
-        $form->check();
-
-        $page->add("book/crud/delete", [
-            "form" => $form->getHTML(),
-        ]);
-
-        return $page->render([
-            "title" => "Delete an item",
-        ]);
-    }
-
-
-
-    /**
-     * Handler with form to update an item.
-     *
-     * @param int $id the id to update.
-     *
-     * @return object as a response object
-     */
-    public function updateAction(int $id) : object
-    {
-        $page = $this->di->get("page");
-        $form = new UpdateForm($this->di, $id);
-        $form->check();
-
-        $page->add("book/crud/update", [
-            "form" => $form->getHTML(),
-        ]);
-
-        return $page->render([
-            "title" => "Update an item",
-        ]);
-    }
 
 }

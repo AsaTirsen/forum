@@ -6,16 +6,18 @@ filter:
 
 build:
 
+  nodes:
+    my-tests:
+      environment:
+        php:
+          version: 7.3
+
   dependencies:
     before:
       - "mkdir -p /home/scrutinizer/build/cache/anax"
       - "mkdir -p /home/scrutinizer/build/build/coverage.clover"
 
   tests:
-    environment:
-      php:
-        version: 7.3
-
     before:
       - "chmod -R 777 /home/scrutinizer/build/cache/anax"
       - "chmod -R 777 /home/scrutinizer/build/build/coverage.clover"

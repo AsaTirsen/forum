@@ -14,23 +14,35 @@ asking questions, answering questions and commenting.
 # To install
 In your composer.json do:
 
-        composer require forum/forum
+        composer require asatirsen/forum
 
 # Integrate the module  
 ## From the root of your Anax repo run:
 
 #### Manually:
 
-        rsync -av vendor/forum/forum/config ./
+# Copy the configuration files
+    rsync -av --exclude navbar --exclude page.php vendor/asatirsen/forum/config ./
 
-        rsync -av vendor/forum/forum/view ./
+# Copy the view
+    rsync -av vendor/asatirsen/forum/view ./
 
-        rsync -av vendor/forum/forum/src ./
+# copy the src directory
+    rsync -av vendor/asatirsen/forum/src ./
 
+# copy the sql directory
+    rsync -av vendor/asatirsen/forum/sql ./
 
 #### Or simply: 
 
-        bash vendor/forum/forum/.anax/scaffold/postprocess.d/100_forum.bash
+        bash vendor/asatirsenforum/.anax/scaffold/postprocess.d/100_forum.bash
+#### create databases
+    sqlite3 data/db.sqlite < sql/ddl/user_sqlite.sql
+    sqlite3 data/db.sqlite < sql/ddl/tag_question_sqlite.sql
+    sqlite3 data/db.sqlite < sql/ddl/question_sqlite.sql
+    sqlite3 data/db.sqlite < sql/ddl/answer_sqlite.sql
+    sqlite3 data/db.sqlite < sql/ddl/tag_sqlite.sql
+    sqlite3 data/db.sqlite < sql/ddl/comment_sqlite.sql
 
 
 #### Update your navigation: 
@@ -39,12 +51,27 @@ Add Forum to your navbar via config/navbar/header.php and via config/navbar/resp
 You will need to insert the following lines of code into the items-key in the above files.
 
         [
-            "text" => "Väder",
-            "url" => "weather",
-            "title" => "Få väderprognos",
+            "text" => "Forum",
+            "url" => "forum",
+            "title" => "Första sidan, börja här.",
         ],
         [
-            "text" => "VäderAPI",
-            "url" => "weather_api",
-            "title" => "Få väderprognos",
+            "text" => "Logga in",
+            "url" => "user/login",
+            "title" => "Logga in.",
+        ],
+        [
+            "text" => "Frågor",
+            "url" => "question",
+            "title" => "Frågor",
+        ],
+        [
+            "text" => "Taggar",
+            "url" => "tag",
+            "title" => "Taggar",
+        ],
+        [
+            "text" => "Om",
+            "url" => "om",
+            "title" => "Om denna webbplats.",
         ],

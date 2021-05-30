@@ -4,6 +4,9 @@ namespace Forum\User;
 
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
+use Forum\Answer\Answer;
+use Forum\Comment\Comment;
+use Forum\Question\Question;
 use Forum\User\HTMLForm\UserLoginForm;
 use Forum\User\HTMLForm\CreateUserForm;
 
@@ -109,6 +112,33 @@ class UserController implements ContainerInjectableInterface
         ];
 
         $page->add("user/create", $data);
+        return $page->render($data);
+    }
+
+    public function viewAction($userId): object
+    {
+        $page = $this->di->get("page");
+        $user = new User();
+        $question = new Question();
+        $answer = new Answer;
+        $comment = new Comment;
+        $user->setDb($this->di->get("dbqb"));
+        $answer->setDb($this->di->get("dbqb"));
+        $comment->setDb($this->di->get("dbqb"));
+        $question->setDb($this->di->get("dbqb"));
+        $user->findById($userId);
+        $questions = $question->findAllWhere("user_id = ?", $userId);
+        $comments = $comment->findAllWhere("user_id = ?", $userId);
+        $answers = $answer->findAllWhere("user_id = ?", $userId);
+        $data = [
+            "title" => $user->acronym,
+            "user" => $user,
+            "questions" => $questions,
+            "comments" => $comments,
+            "answers" => $answers,
+        ];
+
+        $page->add("user/view", $data);
         return $page->render($data);
     }
 }

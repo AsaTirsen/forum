@@ -37,7 +37,7 @@ $mostRecentQuestions = $data["mostRecentQuestions"];
     <?php endif ?>
 
     <td><?php foreach ($mostActiveUsers as $user) : ?>
-     <p><a href="<?= url("question?user_id={$user->id}"); ?>">
+     <p><a href="<?= url("user/view/{$user->id}"); ?>">
             <img src="<?= $user->getGravatar() ?>" alt=""/>
             <?= $user->acronym ?>
         </a></p>
@@ -45,7 +45,7 @@ $mostRecentQuestions = $data["mostRecentQuestions"];
 
 
         <?php if (empty($mostPopularTags)) : ?>
-            Ingen användare har någon aktivitet
+            <p>Inga aktuella taggar</p>
         <?php endif ?>
 
     <td><?php foreach ($mostPopularTags as $tag) : ?>

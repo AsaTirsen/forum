@@ -66,7 +66,6 @@ class AnswerController implements ContainerInjectableInterface
         $question->setDb($this->di->get("dbqb"));
         $form->check();
         $questionText = $question->findById($questionId)->question;
-        var_dump($questionText);
         $data = [
             "form" => $form->getHTML(),
             "question" => $questionText,

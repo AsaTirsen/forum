@@ -27,10 +27,11 @@ $filter = new TextFilter();
 endif;
 ?>
 
-<h1><?= $question->title ?></h1>
+<h1><?= $filter->parse($question->title, ["shortcode", "markdown", "clickable", "bbcode"])->text ?>
+</h1>
 Tags:
 <?php foreach ($tags as $tag) : ?>
-    <?= $tag->name ?>
+    <?= $tag->name . ", " ?>
 <?php endforeach; ?>
 <?php if (empty($tags)) : ?>
 (inga taggar)

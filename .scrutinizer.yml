@@ -6,15 +6,21 @@ filter:
 
 build:
 
-    dependencies:
-      before:
-        - "mkdir -p /home/scrutinizer/build/cache/anax"
-    tests:
-      before:
-        - "chmod -R 777 /home/scrutinizer/build/cache/anax"
-      override:
-        -
-          command: "make phpunit"
-          coverage:
-            file: "build/coverage.clover"
-            format: "php-clover"
+  dependencies:
+    before:
+      - "cd"
+      - "sudo composer self-update"
+      - "mkdir -p /home/scrutinizer/build/cache/anax"
+      - "mkdir -p /home/scrutinizer/build/build/coverage.clover"
+
+  tests:
+    before:
+      - "chmod -R 777 /home/scrutinizer/build/cache/anax"
+      - "chmod -R 777 /home/scrutinizer/build/build/coverage.clover"
+
+    override:
+      -
+        command: "make phpunit"
+        coverage:
+          file: "build/coverage.clover"
+          format: "php-clover"

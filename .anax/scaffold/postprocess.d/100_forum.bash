@@ -2,10 +2,14 @@
 #
 #
 # Copy the configuration files
-rsync -av vendor/forum/forum/config ./
+rsync -av vendor/asatirsen/forum/config ./
 
 # Copy the view
-rsync -av vendor/forum/forum/view ./
+rsync -av vendor/asatirsen/forum/view ./
 
 # copy the src directory
-rsync -av vendor/forum/forum/src ./
+rsync -av vendor/asatirsen/forum/src ./
+
+
+# copy the src directory
+rsync -av vendor/asatirsen/forum/sql ./

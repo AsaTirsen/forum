@@ -33,7 +33,7 @@ return [
             "template" => "anax/v2/header/site_logo",
             "data" => [
                 "class" => "large",
-                "siteLogo"      => "image/theme/granny_smith_2.png",
+                "siteLogo"      => "image/theme/apple.png",
                 "siteLogoAlt"   => "Löv",
             ],
         ],

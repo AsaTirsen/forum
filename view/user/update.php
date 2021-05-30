@@ -8,7 +8,7 @@ $urlToLogin = url("user/login");
 
 
 
-?><h1>Skapa ny användare</h1>
+?><h1>Uppdatera din användare</h1>
 <!--<img src="--><?php //isset($data["gravatar"]) ?? "no image"; ?><!--" alt="" />-->
 <?= $data["form"] ?>
 

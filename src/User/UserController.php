@@ -9,6 +9,8 @@ use Forum\Comment\Comment;
 use Forum\Question\Question;
 use Forum\User\HTMLForm\UserLoginForm;
 use Forum\User\HTMLForm\CreateUserForm;
+use Forum\User\HTMLForm\UpdateForm;
+
 
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
@@ -102,8 +104,6 @@ class UserController implements ContainerInjectableInterface
     {
         $page = $this->di->get("page");
         $form = new CreateUserForm($this->di);
-        //check gravatar
-        //curl gravatar API
         $form->check();
 
         $data = [
@@ -140,5 +140,28 @@ class UserController implements ContainerInjectableInterface
 
         $page->add("user/view", $data);
         return $page->render($data);
+    }
+
+
+    /**
+     * Handler with form to update an item.
+     *
+     * @param int $id the id to update.
+     *
+     * @return object as a response object
+     */
+    public function updateAction(int $id) : object
+    {
+        $page = $this->di->get("page");
+        $form = new UpdateForm($this->di, $id);
+        $form->check();
+
+        $page->add("user/update", [
+            "form" => $form->getHTML(),
+        ]);
+
+        return $page->render([
+            "title" => "Update an item",
+        ]);
     }
 }

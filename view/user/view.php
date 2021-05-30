@@ -10,9 +10,12 @@ $user = $data["user"];
 $answers = $data["answers"];
 $comments = $data["comments"];
 $questions = $data["questions"];
+$urlToUpdate = url("user/update");
+
 ?>
 <article>
-<h1><img src="<?= $user->getGravatar() ?>" alt=""/> <?= $user->acronym ?></h1>
+<h1><a href="<?= url("user/update/{$user->id}"); ?>"><img src="<?= $user->getGravatar() ?>" alt=""/> <?= $user->acronym ?></a></h1>
+
 
 <table class="full-width">
     <tr>

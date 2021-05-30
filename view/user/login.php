@@ -17,6 +17,7 @@ $urlToCreate = url("user/create");
 
 
 
+
 ?><h1>Logga in eller skapa ny användare</h1>
 <!--<img src="--><?php //isset($data["gravatar"]) ?? "no image"; ?><!--" alt="" />-->
 <?= $data["form"] ?>

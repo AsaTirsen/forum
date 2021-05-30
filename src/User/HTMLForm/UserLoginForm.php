@@ -97,7 +97,7 @@ class UserLoginForm extends FormModel
             return false;
         }
         $this->di->get("session")->set("user_id", $user->id);
-        $this->form->addOutput("User " . $user->id . " logged in");
+        $this->form->addOutput("User " . $user->acronym . " logged in");
         return true;
     }
 

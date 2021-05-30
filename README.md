@@ -19,24 +19,26 @@ In your composer.json do:
 # Integrate the module  
 ## From the root of your Anax repo run:
 
-#### Manually:
 
-# Copy the configuration files
+### Simply run:
+
+    bash vendor/asatirsenforum/.anax/scaffold/postprocess.d/100_forum.bash
+
+### Or manually:
+
+### Copy the configuration files
     rsync -av --exclude navbar --exclude page.php vendor/asatirsen/forum/config ./
 
-# Copy the view
+### Copy the view
     rsync -av vendor/asatirsen/forum/view ./
 
-# copy the src directory
+### copy the src directory
     rsync -av vendor/asatirsen/forum/src ./
 
-# copy the sql directory
+### copy the sql directory
     rsync -av vendor/asatirsen/forum/sql ./
 
-#### Or simply: 
-
-        bash vendor/asatirsenforum/.anax/scaffold/postprocess.d/100_forum.bash
-#### create databases
+### create databases
     sqlite3 data/db.sqlite < sql/ddl/user_sqlite.sql
     sqlite3 data/db.sqlite < sql/ddl/tag_question_sqlite.sql
     sqlite3 data/db.sqlite < sql/ddl/question_sqlite.sql
@@ -45,7 +47,7 @@ In your composer.json do:
     sqlite3 data/db.sqlite < sql/ddl/comment_sqlite.sql
 
 
-#### Update your navigation: 
+## Update your navigation: 
 Add Forum to your navbar via config/navbar/header.php and via config/navbar/responsive.php
 
 You will need to insert the following lines of code into the items-key in the above files.
@@ -72,6 +74,6 @@ You will need to insert the following lines of code into the items-key in the ab
         ],
         [
             "text" => "Om",
-            "url" => "om",
+            "url" => "about",
             "title" => "Om denna webbplats.",
         ],
